@@ -1,28 +1,5 @@
 # CrewAI 101: Building Multi-Agent AI Systems
 
-<p style="text-align:center">
-    <a href="https://skills.network" target="_blank">
-    <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/assets/logos/SN_web_lightmode.png" width="200" alt="Skills Network Logo" />
-    </a>
-</p>
-
-Estimated time needed: **45 minutes**
-
-## Table of Contents
-1. [Objectives](#objectives)
-2. [Setup](#setup)
-   - [Installing Required Libraries](#installing-required-libraries)
-3. [What is CrewAI?](#what-is-crewai)
-4. [Setting Up SerperDevTool](#setting-up-serperdevtool)
-5. [Agents in CrewAI](#agents-in-crewai)
-6. [Tasks in CrewAI](#tasks-in-crewai)
-7. [CrewAI Workflow](#crewai-workflow)
-8. [Setting Up Our LLM](#setting-up-our-llm)
-9. [Exercises](#exercises)
-
-## Objectives
-
-After completing this lab, you will be able to:
 
 - Leverage **CrewAI** to automate multi-agent workflows for intelligent content generation
 - Understand the **key components of CrewAI**—agents, tasks, tools, and processes
