@@ -1,136 +1,134 @@
-{
-  "project": {
-    "title": "CrewAI 101: Building Multi-Agent AI Systems",
-    "logo": "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/assets/logos/SN_web_lightmode.png",
-    "description": "A hands-on lab demonstrating how to build collaborative AI agents using CrewAI to automate content creation workflows.",
-    "toc": [
-      "Overview",
-      "Key Features",
-      "Getting Started",
-      "Prerequisites",
-      "Installation",
-      "Workflow Components",
-      "Agents",
-      "Tasks",
-      "Tools",
-      "Crew Orchestration",
-      "Usage",
-      "Example Output",
-      "Exercises",
-      "Contributing",
-      "License",
-      "Authors"
-    ]
-  },
-  "overview": {
-    "description": "This project demonstrates how to build a multi-agent AI system that transforms raw research into polished blog posts and social media content.",
-    "agents": [
-      {
-        "name": "Research Agent",
-        "purpose": "Gathers cutting-edge information using web search tools"
-      },
-      {
-        "name": "Writer Agent",
-        "purpose": "Structures findings into engaging blog content"
-      },
-      {
-        "name": "Social Media Agent",
-        "purpose": "Creates platform-optimized summaries"
-      }
-    ]
-  },
-  "features": [
-    "Role-based AI Agents",
-    "Real-time Research",
-    "Customizable Workflows",
-    "LLM Flexibility",
-    "Performance Metrics"
-  ],
-  "getting_started": {
-    "prerequisites": [
-      "Python 3.8+",
-      "SerperDev API key",
-      "Basic understanding of Python and AI concepts"
-    ],
-    "installation": [
-      "pip install langchain==0.3.20",
-      "pip install crewai==0.80.0",
-      "pip install langchain-community==0.3.19",
-      "pip install crewai-tools==0.38.0",
-      "pip install databricks-sdk==0.57.0"
-    ]
-  },
-  "components": {
-    "agents": {
-      "description": "Specialized AI team members with defined roles, goals, and capabilities",
-      "attributes": [
-        "Roles (Researcher, Writer, Strategist)",
-        "Specific goals and backstories",
-        "Custom tools and capabilities"
-      ]
-    },
-    "tasks": {
-      "description": "Discrete work units with clear specifications",
-      "attributes": [
-        "Clear descriptions",
-        "Expected outputs",
-        "Designated agents",
-        "Optional tools and context"
-      ]
-    },
-    "tools": {
-      "description": "Extensions that enhance agent capabilities",
-      "examples": [
-        "SerperDev for web search",
-        "Custom tools for specific domains",
-        "LLM integrations"
-      ]
-    },
-    "crew": {
-      "description": "The coordination layer that manages workflows",
-      "capabilities": [
-        "Sequences tasks (sequential or hierarchical)",
-        "Manages agent interactions",
-        "Handles input/output between components"
-      ]
-    }
-  },
-  "usage": {
-    "configuration": {
-      "description": "Set up API keys",
-      "code": "import os\nos.environ['SERPER_API_KEY'] = \"your_api_key_here\""
-    },
-    "agent_definition": {
-      "description": "Create an agent",
-      "code": "research_agent = Agent(\n  role='Senior Research Analyst',\n  goal='Uncover cutting-edge information...',\n  backstory=\"You are an expert researcher...\",\n  tools=[SerperDevTool()]\n)"
-    },
-    "task_definition": {
-      "description": "Define a task",
-      "code": "research_task = Task(\n  description=\"Analyze the major {topic}...\",\n  agent=research_agent,\n  expected_output=\"A detailed report on {topic}...\"\n)"
-    },
-    "execution": {
-      "description": "Run the crew",
-      "code": "crew = Crew(\n    agents=[research_agent, writer_agent],\n    tasks=[research_task, writer_task],\n    process=Process.sequential\n)\n\nresult = crew.kickoff(inputs={\"topic\": \"Latest AI breakthroughs\"})"
-    }
-  },
-  "example_output": {
-    "description": "The system produces research reports, blog posts, and social media snippets",
-    "structure": {
-      "raw": "Final blog post content...",
-      "tasks_output": [
-        {
-          "description": "Research task...",
-          "output": "Research findings..."
-        },
-        {
-          "description": "Writing task...",
-          "output": "Blog post content..."
-        }
-      ],
-      "token_usage": {
-        "total_tokens": 1850,
-        "prompt_tokens": 1200,
-        "completion_tokens": 650
-      }
-    }
-  },
+# CrewAI 101: Building Multi-Agent AI Systems
+
+<p style="text-align:center">
+    <a href="https://skills.network" target="_blank">
+    <img src="https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/assets/logos/SN_web_lightmode.png" width="200" alt="Skills Network Logo" />
+    </a>
+</p>
+
+Estimated time needed: **45 minutes**
+
+## Table of Contents
+1. [Objectives](#objectives)
+2. [Setup](#setup)
+   - [Installing Required Libraries](#installing-required-libraries)
+3. [What is CrewAI?](#what-is-crewai)
+4. [Setting Up SerperDevTool](#setting-up-serperdevtool)
+5. [Agents in CrewAI](#agents-in-crewai)
+6. [Tasks in CrewAI](#tasks-in-crewai)
+7. [CrewAI Workflow](#crewai-workflow)
+8. [Setting Up Our LLM](#setting-up-our-llm)
+9. [Exercises](#exercises)
+
+## Objectives
+
+After completing this lab, you will be able to:
+
+- Leverage **CrewAI** to automate multi-agent workflows for intelligent content generation
+- Understand the **key components of CrewAI**—agents, tasks, tools, and processes
+- Implement **real-world AI collaboration scenarios**
+- Develop foundational skills to **extend and scale CrewAI workflows**
+
+## Setup
+
+### Required Libraries
+
+For this lab, we will be using the following Python libraries:
+
+- [`crewai`](https://pypi.org/project/crewai/) – The core framework
+- [`crewai-tools`](https://pypi.org/project/crewai-tools/) – Prebuilt tools
+- [`langchain`](https://www.langchain.com/) – Core utilities
+- [`langchain-community`](https://pypi.org/project/langchain-community/) – Integrations
+
+### Installing Required Libraries
+
+Run the following commands to install the required packages:
+
+```bash
+%pip install langchain==0.3.20 | tail -n 1
+%pip install crewai==0.80.0 | tail -n 1
+%pip install langchain-community==0.3.19 | tail -n 1
+%pip install crewai-tools==0.38.0 | tail -n 1
+%pip install databricks-sdk==0.57.0| tail -n 1
+
+What is CrewAI?
+CrewAI is a cutting-edge framework for building teams of autonomous AI agents that collaborate on complex tasks.
+
+Why CrewAI?
+Assigns roles to agents
+
+Equips them with tools
+
+Directs them with goals
+
+How CrewAI Works
+Each agent has:
+
+Role: Specialized function
+
+Goal: Guides decisions
+
+Backstory: Provides context
+
+Tools: Specialized resources
+
+Configuration: Setup options
+
+Setting Up SerperDevTool
+What is Serper?
+A real-time Google Search API for AI agents.
+
+Setup:
+
+python
+import os
+os.environ['SERPER_API_KEY'] = "your_api_key"
+Initialize the tool:
+
+python
+from crewai_tools import SerperDevTool
+search_tool = SerperDevTool()
+Agents in CrewAI
+Defining an Agent
+python
+from crewai import Agent
+
+research_agent = Agent(
+  role='Senior Research Analyst',
+  goal='Uncover cutting-edge information...',
+  backstory="You are an expert researcher...",
+  tools=[SerperDevTool()]
+)
+Tasks in CrewAI
+Creating Tasks
+python
+from crewai import Task
+
+research_task = Task(
+  description="Analyze the major {topic}...",
+  agent=research_agent,
+  expected_output="A detailed report..."
+)
+CrewAI Workflow
+Assembling the Crew
+python
+from crewai import Crew, Process
+
+crew = Crew(
+    agents=[research_agent, writer_agent],
+    tasks=[research_task, writer_task],
+    process=Process.sequential
+)
+Running the Workflow
+python
+result = crew.kickoff(inputs={"topic": "Latest AI breakthroughs"})
+Setting Up Our LLM
+python
+from crewai import LLM
+
+llm = LLM(
+    model="watsonx/meta-llama/llama-3-3-70b-instruct",
+    base_url="https://us-south.ml.cloud.ibm.com",
+    project_id="skills-network",
+    max_tokens=2000
+)
